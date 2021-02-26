@@ -3,74 +3,82 @@
         <div class="box">
             <p class="transaction">Search Receiver</p>
             <div class="box-search">
-                <input type="text" class="search" placeholder="Search receiver here">
+               <input type="text" v-model="search" placeholder="Search receiver here" @keyup='searchname'>
             </div>
-            <div class="box1-card" v-for="searchreceiver in dataTransaction" :key="searchreceiver.id">
+            <div class="box1-card" v-for="searchreceiver in getFriends" :key="searchreceiver.id" @click="nexttransfer(searchreceiver.id)">
             <div class="image1">
-                <img src="../../assets/samuel.png" class="navbar-brand" alt="1">
+              <img
+          class="align-self-center mr-3"
+          :src="searchreceiver.image"
+          width="52px"
+          alt="user"
+        />
                 <div class="text-grafik">
                     <p class="firstName">{{searchreceiver.firstName}}</p>
                     <h6 class="email">{{searchreceiver.phone}}</h6>
                 </div>
             </div>
             </div>
-            <!-- <div class="image2">
-                <img src="../../assets/momotaro.png" class="navbar-brand" alt="2">
-                <div class="text-grafik1">
-                    <p class="netflix">Momo Taro</p>
-                    <h6 class="subscription">+62812-4343-6731</h6>
-                </div>
-            </div> -->
-
-            <!-- <div class="image3">
-                <img src="../../assets/jesicaken.png" class="navbar-brand" alt="1">
-                <div class="text-grafik2">
-                    <p class="cristine">Jessica Keen</p>
-                    <h6 class="transfer1">+62811-3452-5252</h6>
-                </div>
-            </div> -->
-            <!-- <div class="image4">
-                <img src="../../assets/michael.png" class="navbar-brand" alt="1">
-                <div class="text-grafik3">
-                    <p class="adobe">Michael Le</p>
-                    <h6 class="subscription1">+62810-4224-4613</h6>
-                </div>
-            </div> -->
         </div>
+          <nav aria-label="..." v-if="getPagination">
+          <ul class="pagination">
+            <li class="page-item" :class="[getPagination.currentPage == 1 ? 'disabled': '']">
+              <a class="page-link" href="#" @click.prevent="changePagination(parseInt(getPagination.currentPage)-1)">&laquo;</a>
+            </li>
+            <li v-for="noPage in getPagination.totalPage" class="page-item" :class="[getPagination.currentPage == noPage ? 'active': '']" :key="noPage"><a class="page-link" href="#" @click.prevent="changePagination(noPage)">{{noPage}}</a></li>
+            <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled': '']">
+              <a class="page-link" href="#" @click.prevent="changePagination(parseInt(getPagination.currentPage)+1)">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
+// import axios from 'axios'
 export default {
   name: 'Searchreceiver',
   data () {
     return {
-      dataTransaction: []
+      dataTransaction: [],
+      search: ''
+    }
+  },
+  methods: {
+    ...mapActions(['getFriendsById']),
+    nexttransfer (id) {
+      localStorage.setItem('transfer', id)
+      this.$router.push('inputamountblank')
+    },
+    searchname () {
+      const payload = {
+        search: this.search
+      }
+      this.getFriendsById(payload)
+    },
+    changePagination (noPage) {
+      const payload = {
+        search: this.search,
+        noPage: noPage
+      }
+      this.getFriendsById(payload)
     }
   },
   mounted () {
-    this.getTransaction()
-  },
-  methods: {
-    getTransaction () {
-      axios.get(`${process.env.VUE_APP_SERVICE_API}/users`)
-        .then((res) => {
-          console.log(res)
-          this.dataTransaction = res.data.result
-          //   this.getTransaction()
-          console.log(res.data.result)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    const payload = {
+      search: this.search,
+      noPage: 1
     }
+    this.getFriendsById(payload)
+  },
+  computed: {
+    ...mapGetters(['getFriends', 'getPagination'])
   }
 }
 </script>
 
 <style scoped>
-
 .box {
     width: 800px;
     height: 811px;
@@ -111,6 +119,7 @@ export default {
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
     margin-left: 9px;
     margin-top: 5%;
+    cursor: pointer;
 }
 
 .box .image1 {

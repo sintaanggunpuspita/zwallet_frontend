@@ -18,23 +18,30 @@
                 <div class="input-group mb-5">
                     <div class="form-input">
                         <span><i class="fa fa-envelope-o"></i></span>
-                        <input type="text" class="form-control" name="email" placeholder="Enter your e-mail">
+                        <input type="text" v-model="username" class="form-control" name="username" placeholder="Enter your username">
+                    </div>
+                </div>
+                <div class="input-group mb-4">
+                    <div class="form-input">
+                        <span><i class="fa fa-envelope-o"></i></span>
+                        <input type="text" v-model="email" class="form-control" name="email" placeholder="Enter your e-mail">
                     </div>
                 </div>
                 <div class="input-group mb-3">
                     <div class="form-input">
-                        <span class="password"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" name="password" placeholder="Enter your password">
+                        <!-- <span class="password"><i class="fa fa-lock"></i></span> -->
+                        <input type="password"  v-model="password" class="form-control" name="password" placeholder="Enter your password">
                     </div>
                 </div>
                 <div class="text-right">
                     <h6>Forgot password?</h6>
                 </div>
                 <div class="login">
-                    <button type="button" class="btn btn-secondary">Sign Up</button>
+                    <button type="button" class="btn btn-secondary" @click.prevent="handleSignup">Sign Up</button>
                 </div>
                 <div class="row go-register">
-                    <p>Already have an account? Let's Login</p>
+                    <p>Already have an account? Let's </p>
+                     <!-- <p class="ml-1" @click="goLogin">Login</p> -->
                 </div>
             </form>
         </div>
@@ -44,8 +51,39 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-  name: 'Login'
+  name: 'Register',
+  data () {
+    return {
+      username: '',
+      email: '',
+      password: ''
+    }
+  },
+  computed: {
+    input: function () {
+      return this.username && this.email && this.password
+    }
+  },
+  methods: {
+    ...mapActions(['register']),
+    handleSignup (e) {
+      e.preventDefault()
+      const data = {
+        username: this.username,
+        email: this.email,
+        password: this.password
+      }
+      this.register(data)
+        .then((res) => {
+          this.$router.push({ path: '/login' })
+        })
+        .catch((err) => {
+          console.log(err.response.data.result)
+        })
+    }
+  }
 }
 </script>
 
@@ -89,6 +127,16 @@ export default {
   justify-content: right;
   font-style: normal;
   margin-top: 40px;
+}
+
+input[name="username"] {
+    width: 433px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-bottom-width: 2.5px;
+    padding: 10px 5px 0px 25px;
+    font-size: 14px;
 }
 input[name="email"] {
     width: 433px;

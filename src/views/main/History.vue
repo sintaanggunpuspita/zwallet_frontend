@@ -2,161 +2,141 @@
     <div>
         <div class="box">
             <p class="transaction">Transaction History</p>
-            <p class="week">This Week</p>
-            <br>
-            <div class="content" v-for="result in dataTransaction" :key="result.id">
-                <!-- <div class="image1"> -->
-                    <img src="../../assets/image1.png" class="navbar-brand" alt="1">
-                    <!-- <div class="text-grafik"> -->
-                        <p class="samuel">{{result.firstName}}</p>
-                        <h6 class="transfer">{{result.status}}</h6>
-                    <!-- </div> -->
-                    <h4 class="money1">{{result.amount}}</h4>
-                <!-- </div> -->
-            </div>
 
-            <!-- <div class="image2">
-                <img src="../../assets/image2.png" class="navbar-brand" alt="2">
-                <div class="text-grafik1">
-                    <p class="netflix">Netflix</p>
-                    <h6 class="subscription">Subscription</h6>
+            <div class="box1-card"  v-for="result in getHistoryusers" :key="result.id">
+            <div class="image1">
+                <img src="../../assets/samuel.png" class="navbar-brand" alt="1">
+                <div class="text-grafik">
+                    <p class="firstName">{{result.firstName}}</p>
+                    <h6 class="email">{{result.amount}}</h6>
                 </div>
-                <h4 class="money2">-Rp149.000</h4>
             </div>
-            <div class="image3">
-                <img src="../../assets/image3.png" class="navbar-brand" alt="1">
-                <div class="text-grafik2">
-                    <p class="cristine">Cristine Mar...</p>
-                    <h6 class="transfer1">Transfer</h6>
-                </div>
-                <h4 class="money3">+Rp150.000</h4>
             </div>
-            <div class="image4">
-                <img src="../../assets/image4.png" class="navbar-brand" alt="1">
-                <div class="text-grafik3">
-                    <p class="adobe">Adobe Inc.</p>
-                    <h6 class="subscription1">Subcription</h6>
-                </div>
-                <h4 class="money4">-Rp249.000</h4>
-            </div> -->
         </div>
-
     </div>
 </template>
 
 <script>
-
-import axios from 'axios'
+// import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'history',
+  name: 'History',
   data () {
     return {
       dataTransaction: []
     }
   },
-  mounted () {
-    this.getTransaction()
-  },
-
   methods: {
-    getTransaction () {
-      return axios.get(`${process.env.VUE_APP_SERVICE_API}/transaction`)
-        .then((res) => {
-          this.dataTransaction = res.data.result
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+    ...mapActions(['getHistory'])
+  },
+  mounted: function () {
+    this.getHistory()
+  },
+  computed: {
+    ...mapGetters({ getHistoryusers: 'getHistory' })
   }
 }
 </script>
 
 <style scoped>
-.container {
-    position: relative;
-    display: flex;
-    margin-top: 30px;
-    margin-bottom: 40px;
-}
-
 .box {
     width: 800px;
     height: 811px;
     background-color: white;
     border-radius: 20px;
     margin-left: 20px;
+    position: relative;
 }
 
 .box .transaction {
-    position: absolute;
-    top: 50px;
+    padding-left: 30px;
+    padding-top: 50px;
     color: black;
     left: 360px;
     font-weight: bold;
 }
 
-.week {
-    position: absolute;
-    top: 100px;
-    left: 360px;
-    color: darkgray;
+.box .box-search {
+    position: relative;
 }
-/* box1 */
+
+.box .box-search input {
+    width: 748px;
+    height: 54px;
+    background: rgba(58, 61, 66, 0.1);
+    border-radius: 12px;
+    border: none;
+    margin-top: 1%;
+    margin-left: 3%;
+    padding-left: 50px;
+}
+
+.box .box1-card {
+    width: 755px;
+    height: 70px;
+    background-color:white;
+    border-radius: 30px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+    margin-left: 9px;
+    margin-top: 5%;
+    cursor: pointer;
+}
 
 .box .image1 {
-    position: absolute;
+    /* position: absolute;
     top: 200px;
-    left: 360px;
+    left: 35px; */
     display: flex;
 }
 
 .box .image1 .text-grafik {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 1px;
-    left: 100px;
+    /* position: absolute; */
+    /* top: -1px;
+    left: 90px; */
 }
 
 .box .text-grafik .samuel {
     color: black;
-    /* top: 40px; */
+
 }
 
 .box .image1 .text-grafik .transfer {
     color: darkgrey;
-    top: 40px;
-    font-size: medium;
-}
-
-.box .image1 .money1 {
-    color: green;
-    margin-top: 30px;
-    margin-left: 550px ;
-    /* position: absolute; */
+    top: 80px;
     font-size: medium;
 }
 
 /* box2 */
+
+.box .image2 {
+    width: 725px;
+    height: 70px;
+    background-color:white;
+    border-radius: 30px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+    margin-left: 9px;
+    margin-top: 1px;
+}
+
 .box .image2 {
     position: absolute;
     top: 350px;
-    left: 360px;
+    left: 35px;
     display: flex;
 }
 
 .box .image2 .text-grafik1 {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 3px;
-    left: 100px;
+    /* position: absolute; */
+    top: -5px;
+    left: 80px;
 }
 
-.box .text-grafik1 .netflix {
+.box .text-grafik1 .momotaro {
     color: black;
-    /* top: 40px; */
 }
 
 .box .text-grafik1 .subscription {
@@ -165,26 +145,29 @@ export default {
     font-size: medium;
 }
 
-.box .image2 .money2 {
-    color:red;
-    margin-top: 25px;
-    margin-left: 550px;
-    /* position: absolute; */
-    font-size: medium;
+/* box3 */
+
+.box .image3 {
+    width: 718px;
+    height: 70px;
+    background-color:white;
+    border-radius: 30px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+    margin-left: 9px;
+    margin-top: 1px;
 }
 
-/* box3 */
 .box .image3 {
     position: absolute;
     top: 500px;
-    left: 360px;
+    left: 45px;
     display: flex;
 }
 
 .box .image3 .text-grafik2 {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    /* position: absolute; */
     top: 6px;
     left: 100px;
 }
@@ -199,26 +182,29 @@ export default {
     font-size: medium;
 }
 
-.box .image3 .money3 {
-    color: green;
-    margin-top: 27px;
-    margin-left: 550px;
-    font-size: medium;
-}
-
 /* box4 */
+
+.box .image4 {
+    width: 715px;
+    height: 70px;
+    background-color:white;
+    border-radius: 30px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+    margin-left: 9px;
+    margin-top: 1px;
+}
 
 .box .image4 {
     position: absolute;
     top: 650px;
-    left: 370px;
+    left: 50px;
     display: flex;
 }
 
 .box .image4 .text-grafik3 {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    /* position: absolute; */
     top: 8px;
     left: 90px;
 }
@@ -232,12 +218,4 @@ export default {
     top: 30px;
     font-size: medium;
 }
-
-.box .image4 .money4 {
-    color:red;
-    margin-top: 27px;
-    margin-left: 560px;
-    font-size: medium;
-}
-
 </style>

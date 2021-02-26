@@ -4,10 +4,10 @@
             <ul>
                 <li><router-link to="dashboard" class="dasboard"><img src="../../assets/grid.png" alt="man">Dashboard</router-link></li>
                 <li><router-link to="searchreceiver" class="transfer"><img src="../../assets/arrow-up.png" alt="arrow">Transfer</router-link></li>
-                <li><router-link to="top up" class="top up"><img src="../../assets/plus.png" alt="plus">Top Up</router-link></li>
+                <li><router-link to="/home/Topup" class="top up"><img src="../../assets/plus.png" alt="plus">Top Up</router-link></li>
                 <li><router-link to="profile" class="profile"><img src="../../assets/user.png" alt="user">Profile</router-link></li>
             <div class="logout">
-                <li><router-link to="logout" class="logout"><img src="../../assets/log-out.png" alt="logout">Logout</router-link></li>
+                <li><router-link to="/login" class="logout"><img src="../../assets/log-out.png" alt="logout">Logout</router-link></li>
             </div>
             </ul>
     </div>
@@ -33,8 +33,8 @@ export default {
     width: 300px;
     height: 500px;
     background: #fff;
-    border-radius: 20px;
-    position: relative;
+    border-radius: 50px;
+    /* position: relative; */
 }
 
 .sidebar .ul {

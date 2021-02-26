@@ -79,7 +79,6 @@ export default {
       axios.get(`${process.env.VUE_APP_SERVICE_API}/transaction`)
         .then((res) => {
           this.dataTransaction = res.data.result
-        //   this.getTransaction()
         })
         .catch((err) => {
           console.log(err)

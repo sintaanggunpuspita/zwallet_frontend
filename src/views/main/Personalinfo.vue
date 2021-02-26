@@ -2,73 +2,87 @@
     <div>
     <div class="container">
         <div class="box">
-            <div class="content" v-for="Personalinfo in dataPersonalinfo" :key="Personalinfo">
+            <div class="content">
             <p class="transaction">Personal Information</p>
             <h4>We got your personal information from the sign <br>
             up proccess. If you want to make changes on <br>
             your information, contact our support</h4>
+            <div v-b-modal.modal-prevent-closing class="content-edit">Edit your personal info</div>
+            <b-modal id="modal-prevent-closing" ref="modal" title="Edit  Name Personal Info" @hidden="resetModal" @ok="handleOk">
+            <b-form-group label="firstName" label-for="name-input" invalid-feedback="Name is required" :state="nameState">
+                <b-form-input id="name-input" v-model="firstName" :state="nameState" required></b-form-input></b-form-group>
+            <b-form-group label="lastName" label-for="name-input" invalid-feedback="Name is required" :state="nameState">
+                <b-form-input id="name-input" v-model="lastName" :state="nameState" required></b-form-input></b-form-group>
+            </b-modal>
             <div class="text-grafik1">
-                <h6 class="first">First</h6>
-                <p class="name">Robert</p>
+                <h6>{{getUsers.firstName}}</h6>
+                <!-- <p class="name">Robert</p> -->
             </div>
             <div class="text-grafik2">
-                <h6 class="last">Last Name</h6>
-                <p class="name1">Chandler</p>
+                <h6>{{getUsers.lastName}}</h6>
+                <!-- <p class="name1">Chandler</p> -->
             </div>
             <div class="text-grafik3">
-                <h6 class="verified">Verified-Email</h6>
-                <p class="email">pewdiepie1@gmail.com</p>
+                <h6>{{getUsers.email}}</h6>
+                <!-- <p class="email">pewdiepie1@gmail.com</p> -->
             </div>
             <div class="text-grafik4">
-                <h6 class="phone">Phonee Number</h6>
-                <p class="number">+62813-9387-7946</p>
-                <h4 class="manage">Manage</h4>
+                <h6>{{getUsers.phone}}</h6>
             </div>
             </div>
+          <button type="button" class="btn btn-primary">Manage</button>
         </div>
     </div>
+    <div>
+</div>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Personalinfo',
   data () {
     return {
-      phone_number: 0,
-      dataPhonenumber: []
+      dataTransaction: [],
+      firstName: '',
+      lastName: '',
+      nameState: null,
+      submittedNames: []
+    }
+  },
+  methods: {
+    ...mapActions(['getbyId']),
+    resetModal () {
+      this.firstName = ''
+      this.lastName = ''
+      this.nameState = null
+    },
+    handleOk (bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault()
+      // Trigger submit handler
+      this.handleSubmit()
+    },
+    handleSubmit () {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return
+      }
+      // Push the name to submitted names
+      this.submittedNames.push(this.name)
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide('modal-prevent-closing')
+      })
     }
   },
   mounted () {
-    this.getPhonenumber()
+    this.getbyId()
   },
-  methods: {
-    getPhonenumber () {
-      axios.get(`${process.env.VUE_APP_SERVICE_API}/phonenumber`)
-        .then((res) => {
-          this.dataPhonenumber = res.data.result
-          this.getPhonenumber()
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    mounted () {
-      this.deletePhonenumber()
-    },
-    methods: {
-      deletePhonenumber () {
-        axios.delete(`${process.env.VUE_APP_SERVICE_API}/phonenumber`)
-          .then((res) => {
-            this.dataPhonenumber = res.data.result
-            this.deletePhonenumber()
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
-    }
+  computed: {
+    ...mapGetters(['getUsers'])
   }
 }
 </script>
@@ -139,7 +153,7 @@ export default {
 .box .text-grafik1 .name {
     color: #514F5B;
     margin-left: -30px;
-    margin-top: 40px;
+    margin-top: 60px;
     font-weight: bold;
 }
 
@@ -211,6 +225,13 @@ export default {
 
 }
 
+.btn{
+    width:100px;
+    height: 40px;
+    margin-left: 600px;
+    margin-top: 30px;
+}
+
 .box .text-grafik4 {
     width: 755px;
     height: 70px;
@@ -241,4 +262,32 @@ export default {
     top: 613px;
     left: 650px;
 }
+
+.box .text-grafik1 h6 {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.box .text-grafik2 h6 {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.box .text-grafik3 h6 {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.box .text-grafik4 h6 {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.content-edit {
+    margin-top: 10px;
+    margin-left: 30px;
+    cursor: pointer;
+    color: blue;
+}
+
 </style>

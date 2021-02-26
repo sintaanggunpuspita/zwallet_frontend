@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+    <!-- <h2 v-setfont :big.style = " 'coba' ">Halaman Login</h2> -->
     <div class="row">
       <div class="col-6 wrapper-login">
         <h1>Zwallet</h1>
@@ -24,20 +25,20 @@
                 <div class="input-group mb-5">
                     <div class="form-input">
                         <span><i class="fa fa-envelope-o"></i></span>
-                        <input type="text" class="form-control" name="email" placeholder="Enter your e-mail">
+                        <input type="text" v-model="email" class="form-control" name="email" placeholder="Enter your e-mail">
                     </div>
                 </div>
                 <div class="input-group mb-3">
                     <div class="form-input">
-                        <span class="password"><i class="fa fa-lock"></i></span>
-                        <input type="password" class="form-control" name="password" placeholder="Enter your password">
+                        <!-- <span class="password"><i class="fa fa-lock"></i></span> -->
+                        <input type="password" v-model="password" class="form-control" name="password" placeholder="Enter your password">
                     </div>
                 </div>
                 <div class="text-right">
                     <h6>Forgot password?</h6>
                 </div>
                 <div class="login">
-                    <button type="button" class="btn btn-secondary">Login</button>
+                    <button type="button" class="btn btn-secondary" @click.prevent="handeLogin">Login</button>
                 </div>
                 <div class="row go-register">
                     <p>Don’t have an account? Let’s</p>
@@ -50,26 +51,27 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data () {
     return {
-      dataLogin: []
+      email: '',
+      password: ''
     }
   },
-  mounted () {
-    this.getLogin()
-  },
   methods: {
-    getLogin () {
-      axios.get(`${process.env.VUE_APP_SERVICE_API}/login`)
+    ...mapActions(['login']),
+    handeLogin () {
+      console.log('handle login')
+      const payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.login(payload)
         .then((res) => {
-          this.Login = res.data.result
-          this.getLogin()
-        })
-        .catch((err) => {
-          console.log(err)
+          console.log(res)
+          this.$router.push('/home/dashboard')
         })
     }
   }
@@ -147,7 +149,7 @@ input[name="password"] {
 button[type="button"] {
     position: absolute;
     width: 300px;
-    margin-top: 50px;
+    margin-top: 80px;
     margin-left: 80px;
 }
 .go-register {

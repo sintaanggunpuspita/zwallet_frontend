@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import Navbar from '../../components/module/Navbar'
-import Sidebar from '../../components/module/Sidebar'
-import Footbar from '../../components/module/Footbar'
+import Navbar from '../../../components/module/Navbar'
+import Sidebar from '../../../components/module/Sidebar'
+import Footbar from '../../../components/module/Footbar'
 
 export default {
   name: 'Home',
