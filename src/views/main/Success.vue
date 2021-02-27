@@ -80,9 +80,9 @@ export default {
         .then((res) => {
           this.dataTransaction = res.data.result
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        // .catch((err) => {
+        //   console.log(err)
+        // })
     }
   }
 }

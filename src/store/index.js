@@ -56,12 +56,12 @@ export default new Vuex.Store({
   actions: {
     register (context, payload) {
       return new Promise((resolve, reject) => {
-        console.log('ini', payload)
+        // console.log('ini', payload)
         axios.post('http://localhost:5000/v1/users/register/', payload)
           .then((res) => {
             const result = res.data.result
-            console.log(result)
-            console.log('isi result login', result)
+            // console.log(result)
+            // console.log('isi result login', result)
             localStorage.setItem('token', result.token)
             localStorage.setItem('id', result.id)
             context.commit('SET_USER', result)
@@ -77,7 +77,7 @@ export default new Vuex.Store({
         axios.post('http://localhost:5000/v1/users/login', payload)
           .then((res) => {
             const result = res.data.result
-            console.log('isi result login', result)
+            // console.log('isi result login', result)
             localStorage.setItem('token', result.token)
             localStorage.setItem('id', result.id)
             context.commit('SET_USER', result)
@@ -93,7 +93,7 @@ export default new Vuex.Store({
         axios.get(`http://localhost:5000/v1/users/${localStorage.getItem('id')}`, payload)
           .then((res) => {
             const result = res.data.result[0]
-            console.log('isi get by id', result)
+            // console.log('isi get by id', result)
             context.commit('SET_ID', result)
             resolve(result)
           })
@@ -121,7 +121,7 @@ export default new Vuex.Store({
         axios.get(`http://localhost:5000/v1/users/friends/${localStorage.getItem('id')}?firstName=${payload.search}&page=${payload.noPage}`)
           .then((res) => {
             const result = res.data.result
-            console.log('isi get by id', result)
+            // console.log('isi get by id', result)
             context.commit('SET_FRIENDS', result.users)
             context.commit('SET_PAGINATION', result.pagination)
             resolve(result)
@@ -136,7 +136,7 @@ export default new Vuex.Store({
         axios.get(`http://localhost:5000/v1/transaction/transactionhistory/${localStorage.getItem('id')}`)
           .then((res) => {
             const result = res.data.result
-            console.log('history', result)
+            // console.log('history', result)
             context.commit('SET_HISTORY', result)
             resolve(result)
           })
@@ -150,7 +150,7 @@ export default new Vuex.Store({
         axios.post('http://localhost:5000/v1/transaction', payload)
           .then((res) => {
             const result = res.data.result
-            console.log('transfer', result)
+            // console.log('transfer', result)
             context.commit('SET_TRANSFER', result)
             resolve(result)
           })
@@ -160,12 +160,12 @@ export default new Vuex.Store({
       })
     },
     getDetailfriendsbyId (context, payload) {
-      console.log(payload)
+      // console.log(payload)
       return new Promise((resolve, reject) => {
         axios.get('http://localhost:5000/v1/users/' + payload.idTransfer)
           .then((res) => {
             const result = res.data.result
-            console.log(result[0])
+            // console.log(result[0])
             context.commit('SET_DETAILFRIENDS', result[0])
             resolve(result)
           })
@@ -175,7 +175,7 @@ export default new Vuex.Store({
       })
     },
     updateImages (context, payload) {
-      console.log(payload)
+      // console.log(payload)
       return new Promise((resolve, reject) => {
         axios.patch(`http://localhost:5000/v1/users/${localStorage.getItem('id')}`, payload)
           .then((res) => {
@@ -189,7 +189,7 @@ export default new Vuex.Store({
       })
     },
     updateUser (context, payload) {
-      console.log(payload)
+      // console.log(payload)
       return new Promise((resolve, reject) => {
         axios.patch('http://localhost:5000/v1/users/', payload)
           .then((res) => {

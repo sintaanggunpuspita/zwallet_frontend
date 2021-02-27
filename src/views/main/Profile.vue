@@ -83,7 +83,7 @@ export default {
           // Kirim,
           this.updateImages(data)
             .then((res) => {
-              console.log(res)
+              // console.log(res)
               this.getbyId()
             })
         }
