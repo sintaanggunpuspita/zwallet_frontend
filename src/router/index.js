@@ -16,7 +16,7 @@ import Personalinfo from '../views/main/Personalinfo.vue'
 import Pinblank from '../views/main/Pinblank.vue'
 import Profile from '../views/main/Profile.vue'
 import Searchreceiver from '../views/main/Searchreceiver.vue'
-import Inputamountblank from '../views/main/Inputamountblank.vue'
+// import Inputamountblank from "../views/main/Inputamountblank.vue";
 import Success from '../views/main/Success.vue'
 import Topup from '../views/main/Topup.vue'
 
@@ -104,11 +104,11 @@ const routes = [
         name: 'Searchreceiver',
         component: Searchreceiver
       },
-      {
-        path: 'inputamountblank',
-        name: 'Inputamountblank',
-        component: Inputamountblank
-      },
+      // {
+      //   path: "inputamountblank",
+      //   name: "Inputamountblank",
+      //   component: Inputamountblank
+      // },
       {
         path: '/success',
         name: 'Success',
